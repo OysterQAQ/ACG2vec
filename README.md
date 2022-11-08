@@ -98,5 +98,5 @@ docker-compose up -d
 
 ## Trend
 
-![stars](https://starchart.cc/OysterQAQ/deepix.svg)
+![stars](https://starchart.cc/OysterQAQ/ACG2vec.svg)
 
