@@ -1,7 +1,6 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/icon.png" width = "180" alt="pixivic_icon"/>
+<img src="https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/icon180.png" width = "180" alt="pixivic_icon"/>
 </p>
-
 
 ## Introduction
 
