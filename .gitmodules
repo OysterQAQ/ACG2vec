@@ -1,0 +1,6 @@
+[submodule "webapp"]
+	path = webapp
+	url = https://github.com/OysterQAQ/ACG2vec-webapp
+[submodule "model"]
+	path = model
+	url = https://github.com/OysterQAQ/ACG2vec-model
