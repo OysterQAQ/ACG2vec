@@ -9,9 +9,9 @@
 目前模块包括：
 
 * model：深度神经网络模型模块，目前包括
-  * [1]**acgvoc2vec**：基于从维基百科动漫列表、萌娘百科、Bangumi、pixiv、AnimeList等来源获取清洗处理抽取的510w语句对微调的sentence-transformers模型
-  * [2]**deepix**：基于[DeepDanbooru](https://github.com/KichangKim/DeepDanbooru)模型中抽取activation_96及之前的layer作为encoder(lr:1e-5)，拼接自定义的resnet block与预测头(lr:1e-2)的对pixiv数据进行多任务预测的模型
-  * [3]**illust2vec**：从deepix去除自定义resnet block与预测头的图片特征抽取模型
+  * **acgvoc2vec**：基于从维基百科动漫列表、萌娘百科、Bangumi、pixiv、AnimeList等来源获取清洗处理抽取的510w语句对微调的sentence-transformers模型
+  * **deepix**：基于[DeepDanbooru](https://github.com/KichangKim/DeepDanbooru)模型中抽取activation_96及之前的layer作为encoder(lr:1e-5)，拼接自定义的resnet block与预测头(lr:1e-2)的对pixiv数据进行多任务预测的模型
+  * **illust2vec**：从deepix去除自定义resnet block与预测头的图片特征抽取模型
 * webapp：对外提供web服务模块。目前包括开箱即用的二次元插画标签预测服务、以图搜图服务、插画特征抽取服务、文本特征抽取服务
 * docker：基于容器化的部署模块，包括了部署所需要的配置文件与资源文件
 
@@ -36,6 +36,7 @@
 #拉取项目
 git clone https://github.com/OysterQAQ/ACG2vec.git
 cd ACG2vec/ACG2vec-docker
+#下载release中的模型包 解压到docker/tf-serving/models
 #使用docker-compose部署
 docker-compose up -d
 ```
