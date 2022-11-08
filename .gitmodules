@@ -4,3 +4,6 @@
 [submodule "model"]
 	path = model
 	url = https://github.com/OysterQAQ/ACG2vec-model
+[submodule "docker"]
+	path = docker
+	url = https://github.com/OysterQAQ/ACG2vec-docker
