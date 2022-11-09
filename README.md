@@ -20,7 +20,7 @@
 
 <img src="https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/arch.png" alt="image-20220827172516288" style="border-radius:10px" />
 
-## 模型设计
+## Model Structure
 
 ### illust2vec
 
