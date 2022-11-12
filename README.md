@@ -10,7 +10,7 @@
 目前模块包括：
 
 * model：深度神经网络模型模块，目前包括
-  * **acgvoc2vec**：基于从维基百科动漫列表、萌娘百科、Bangumi、pixiv、AnimeList等来源获取清洗处理抽取的510w语句对微调的sentence-transformers模型
+  * **acgvoc2vec**：基于从维基百科动漫列表、萌娘百科、Bangumi、pixiv、AnimeList等来源获取清洗处理抽取的510w语句对微调的sentence-transformers模型，生成二次元相关文本的特征向量，用于各种下游任务（标签推荐，标签搜索，推荐系统等）
   
     可以使用Huggingface在线体验:https://huggingface.co/OysterQAQ/ACGVoc2vec
   
