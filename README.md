@@ -32,11 +32,7 @@
 
 结构概览为：[DeepDanbooru](https://github.com/KichangKim/DeepDanbooru)的输入层至activation_96层作为特征抽取器（学习率设置为1e-5）+各个任务自定义resnet block与dense预测头（学习率设置为1e-2）
 
-![image-20221109151659173](https://imghost.ipv4.host/d/v7VJdXrW/2022/11/09/qV4e8XZq/image-20221109151659173.png?download=1)
-
-![image-20221109151629467](https://imghost.ipv4.host/d/v7VJdXrW/2022/11/09/XwVjJFd7/image-20221109151629467.png?download=1)
-
-预测任务为pixiv插画的浏览数、收藏数、图片浏览级别、文本标签。
+预测任务为pixiv插画的浏览数、收藏数、图片浏览级别（文本标签可以使用DeepDanbooru模型进行预测）。
 
 DeepDanbooru模型是基于resnet的预测模型，用于预测动漫插画的标签信息，完整模型输出纬度为8000。DeepDanbooru能很好的预测Danbooru数据集所描述的多标签多分类问题，Danbooru数据集的标签分布更加的均衡，对图片的描述更加的准确，但是标签中没有对图片收藏数与浏览数的预测，因此其输出中并没有包含图片的质量信息（一般笔触细腻，作画精美的作品会得到更多的浏览与收藏）。
 
