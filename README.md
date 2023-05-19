@@ -18,9 +18,9 @@
   
     可以使用Huggingface在线体验:https://huggingface.co/OysterQAQ/DanbooruCLIP
   
-  * **deepix**：基于[DeepDanbooru](https://github.com/KichangKim/DeepDanbooru)模型中抽取activation_96及之前的layer作为encoder(lr:1e-5)，拼接自定义的resnet block与预测头(lr:1e-2)的对pixiv数据进行多任务预测的模型
+  * **pix2score**：基于resnet101的多任务模型，用于预测动漫插图的收藏数、浏览数与情色级别（训练中）
   
-  * **illust2vec**：从deepix去除自定义resnet block与预测头的图片特征抽取模型
+  * **illust2vec**：从[DeepDanbooru](https://github.com/KichangKim/DeepDanbooru)模型去除预测头并对末尾层做均值池化的图片语义特征抽取模型
   
 * webapp：对外提供web服务模块。目前包括开箱即用的二次元插画标签预测服务、以图搜图服务、插画特征抽取服务、文本特征抽取服务
 
@@ -182,9 +182,6 @@ DeepDanbooru模型是基于resnet的预测模型，用于预测动漫插画的�
                     yield img, text_2[0]
 ```
 
-
-### 
-
 ## Technical overview
 
 * Tensorflow 2.0作为模型训练引擎
@@ -245,10 +242,6 @@ docker-compose up -d
   </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">token</span></td><td key=5></td></tr>
                </tbody>
               </table>
-
-
-
-
 
 ## Thanks
 
