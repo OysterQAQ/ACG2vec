@@ -14,6 +14,10 @@
   
     可以使用Huggingface在线体验:https://huggingface.co/OysterQAQ/ACGVoc2vec
   
+  * **dclip**：使用danburoo2021数据集对clip（ViT-L/14）模型进行微调。
+  
+    可以使用Huggingface在线体验:https://huggingface.co/OysterQAQ/DanbooruCLIP
+  
   * **deepix**：基于[DeepDanbooru](https://github.com/KichangKim/DeepDanbooru)模型中抽取activation_96及之前的layer作为encoder(lr:1e-5)，拼接自定义的resnet block与预测头(lr:1e-2)的对pixiv数据进行多任务预测的模型
   
   * **illust2vec**：从deepix去除自定义resnet block与预测头的图片特征抽取模型
@@ -79,6 +83,107 @@ DeepDanbooru模型是基于resnet的预测模型，用于预测动漫插画的�
 * 动画中文名+小标题-对应内容
 
 在进行爬取，清洗，处理后得到510w对文本对（还在持续增加），batchzise=80训练了20个epoch，使st的权重能够适应该问题空间，生成融合了领域知识的文本特征向量（体现为有关的文本距离更加接近，例如作品与登场人物，或者来自同一作品的登场人物）。
+
+### DCLIP
+
+使用danburoo2021数据集对clip（ViT-L/14）模型进行微调。
+
+0-3 epoch学习率为4e-6，权重衰减为1e-3
+
+4-8 epoch学习率为1e-6，权重衰减为1e-3
+
+标签预处理过程：
+
+```python
+            for i in range(length):
+                # 加载并且缩放图片
+                if not is_image(data_from_db.path[i]):
+                    continue
+
+                try:
+                    img = self.preprocess(
+                        Image.open(data_from_db.path[i].replace("./", "/mnt/lvm/danbooru2021/danbooru2021/")))
+                except Exception as e:
+                    #print(e)
+                    continue
+                # 处理标签
+                tags = json.loads(data_from_db.tags[i])
+                # 优先选择人物和作品标签
+                category_group = {}
+                for tag in tags:
+                    category_group.setdefault(tag["category"], []).append(tag)
+
+                # category_group=groupby(tags, key=lambda x: (x["category"]))
+                character_list = category_group[4] if 4 in category_group else []
+                # 作品需要过滤以bad开头的
+
+                work_list = list(filter(
+                    lambda e:
+                               e["name"] != "original"
+                            , category_group[3])) if 3 in category_group else []
+                # work_list=  category_group[5] if 5 in category_group else []
+                general_list = category_group[0] if 0 in category_group else []
+                caption = ""
+                caption_2 = None
+                for character in character_list:
+                    if len(work_list) != 0:
+                        # 去除括号内作品内容
+                        character["name"] = re.sub(u"\\(.*?\\)", "", character["name"])
+                    caption += character["name"].replace("_", " ")
+                    caption += ","
+                caption = caption[:-1]
+                caption += " "
+                if len(work_list) != 0:
+                    caption += "from "
+                for work in work_list:
+                    caption += work["name"].replace("_", " ")
+                    caption += " "
+                # 普通标签
+                if len(general_list) != 0:
+                    caption += "with "
+                if len(general_list) > 20:
+                    general_list_1 = general_list[:int(len(general_list) / 2)]
+                    general_list_2 = general_list[int(len(general_list) / 2):]
+                    caption_2 = caption
+                    for general in general_list_1:
+                        if general["name"].find("girl") == -1 and general["name"].find("boy") == -1 and len(
+                                re.findall(is_contain, general["name"])) != 0:
+                            caption_2 += general["name"].replace("_", " ")
+                            caption_2 += ","
+                    caption_2 = caption_2[:-1]
+                    for general in general_list_2:
+                        if general["name"].find("girl") == -1 and general["name"].find("boy") == -1 and len(
+                                re.findall(is_contain, general["name"])) != 0:
+                            caption += general["name"].replace("_", " ")
+                            caption += ","
+                    caption = caption[:-1]
+                else:
+                    for general in general_list:
+                        # 如果标签数据目大于20 则拆分成两个caption
+                        if general["name"].find("girl") == -1 and general["name"].find("boy") == -1 and len(
+                                re.findall(is_contain, general["name"])) != 0:
+                            caption += general["name"].replace("_", " ")
+                            caption += ","
+                    caption = caption[:-1]
+
+                # 标签汇总成语句
+                # tokenize语句
+                # 返回
+                # 过长截断 不行的话用huggingface的
+                text_1 = clip.tokenize(texts=caption, truncate=True)
+                text_2= None
+                if caption_2 is not None:
+                    text_2 = clip.tokenize(texts=caption_2, truncate=True)
+                # 处理逻辑
+
+                # print(img)
+                yield img, text_1[0]
+                if text_2 is not None:
+                    yield img, text_2[0]
+```
+
+
+### 
 
 ## Technical overview
 
