@@ -39,7 +39,7 @@
 
 ### 语义文本搜索
 
-![image-20230725185441532](https://imghost.ipv4.host/d/v7VJdXrW/2023/07/25/bqfvTS8R/image-20230725185441532-20230725201049201.png?download=1)
+![image-20230725185441532](https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/image-20230725185441532.png)
 
 ### 语义图像搜索
 
@@ -47,11 +47,11 @@
 
 ### 插画综合评分预测
 
-![image-20230725185608823](https://imghost.ipv4.host/d/v7VJdXrW/2023/07/25/PtnkTIBo/image-20230725185608823-20230725201055914.png?download=1)
+![image-20230725185608823](https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/image-20230725185608823.png)
 
 ### 以图搜图
 
-![4](https://imghost.ipv4.host/d/v7VJdXrW/2023/07/25/WExnYwU0/4.jpg?download=1)
+![4](https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/image-20230725185702808.png)
 
 ## Architecture
 
