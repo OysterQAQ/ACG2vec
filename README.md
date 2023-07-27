@@ -290,9 +290,8 @@ github 主仓库地址（ tensorflow 的 savemodel 格式可以在 release 中�
 
 ```shell
 #拉取项目
-git clone https://github.com/OysterQAQ/ACG2vec.git
-cd ACG2vec/ACG2vec-docker
-#下载release中的模型包 解压到docker/tf-serving/models
+git clone https://github.com/OysterQAQ/ACG2vec-docker.git
+#下载release（1.0.0_for_tf_serving）中的模型包 解压到tf-serving/models
 #使用docker-compose部署
 docker-compose up -d
 ```
@@ -301,11 +300,12 @@ docker-compose up -d
 
 基于restful api对外提供服务，以下是api文档（默认端口为8081，可在docker-compose.yaml中修改）：
 
-### 获取插图特征向量
+### Pix2Score图像打分
+
 
 #### 基本信息
 
-**Path：** /images/features
+**Path：** /images/socresByPix2Score
 
 **Method：** POST
 
@@ -316,14 +316,16 @@ docker-compose up -d
 
 **Headers**
 
-| 参数名称     | 参数值                | 是否必须 | 示例 | 备注 |
-| ------------ | --------------------- | -------- | ---- | ---- |
-| Content-Type | application/form-data | 是       |      |      |
-| **Query**    |                       |          |      |      |
+| 参数名称     | 参数值              | 是否必须 | 示例 | 备注 |
+| ------------ | ------------------- | -------- | ---- | ---- |
+| Content-Type | multipart/form-data | 是       |      |      |
+| **Body**     |                     |          |      |      |
 
-| 参数名称 | 是否必须 | 示例 | 备注     |
-| -------- | -------- | ---- | -------- |
-| file     | 是       |      | 插图文件 |
+| 参数名称 | 参数类型 | 是否必须 | 示例 | 备注 |
+| -------- | -------- | -------- | ---- | ---- |
+| image    | file     | 是       |      |      |
+
+
 
 #### 返回数据
 
@@ -332,10 +334,149 @@ docker-compose up -d
     <tr>
       <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
     </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap">token</span></td><td key=5></td></tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> bookmarkPredict</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-33><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> viewPredict</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-34><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sanityPredict</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-35><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
                </tbody>
               </table>
+### acgvoc2vec文本特征抽取
 
+
+#### 基本信息
+
+**Path：** /models/acgvoc2vec/feature
+
+**Method：** POST
+
+**接口描述：**
+
+
+#### 请求参数
+
+**Headers**
+
+| 参数名称     | 参数值                            | 是否必须 | 示例 | 备注 |
+| ------------ | --------------------------------- | -------- | ---- | ---- |
+| Content-Type | application/x-www-form-urlencoded | 是       |      |      |
+| **Query**    |                                   |          |      |      |
+
+| 参数名称 | 是否必须 | 示例 | 备注 |
+| -------- | -------- | ---- | ---- |
+| text     | 是       |      |      |
+
+#### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-36><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+### dclip_text文本特征抽取
+
+#### 基本信息
+
+**Path：** /models/dclip_text/feature
+
+**Method：** POST
+
+**接口描述：**
+
+
+#### 请求参数
+
+**Headers**
+
+| 参数名称     | 参数值                            | 是否必须 | 示例 | 备注 |
+| ------------ | --------------------------------- | -------- | ---- | ---- |
+| Content-Type | application/x-www-form-urlencoded | 是       |      |      |
+| **Query**    |                                   |          |      |      |
+
+| 参数名称 | 是否必须 | 示例 | 备注 |
+| -------- | -------- | ---- | ---- |
+| text     | 是       |      |      |
+
+#### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-37><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+### deepdanbooru图片打标签
+
+
+#### 基本信息
+
+**Path：** /images/labelsByDeepDanbooru
+
+**Method：** POST
+
+**接口描述：**
+
+
+#### 请求参数
+
+**Headers**
+
+| 参数名称     | 参数值              | 是否必须 | 示例 | 备注 |
+| ------------ | ------------------- | -------- | ---- | ---- |
+| Content-Type | multipart/form-data | 是       |      |      |
+| **Body**     |                     |          |      |      |
+
+| 参数名称 | 参数类型 | 是否必须 | 示例 | 备注 |
+| -------- | -------- | -------- | ---- | ---- |
+| image    | file     | 是       |      |      |
+
+#### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>string []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>string</span></p></td></tr><tr key=array-38><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
+### illust2vec图片特征抽取
+
+#### 基本信息
+
+**Path：** /models/illust2vec/feature
+
+**Method：** POST
+
+**接口描述：**
+
+
+#### 请求参数
+
+**Headers**
+
+| 参数名称     | 参数值              | 是否必须 | 示例 | 备注 |
+| ------------ | ------------------- | -------- | ---- | ---- |
+| Content-Type | multipart/form-data | 是       |      |      |
+| **Body**     |                     |          |      |      |
+
+| 参数名称 | 参数类型 | 是否必须 | 示例 | 备注 |
+| -------- | -------- | -------- | ---- | ---- |
+| image    | file     | 是       |      |      |
+
+
+
+#### 返回数据
+
+<table>
+  <thead class="ant-table-thead">
+    <tr>
+      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
+    </tr>
+  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-39><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
+               </tbody>
+              </table>
 ## Thanks
 
 本项目离不开以下开源项目
