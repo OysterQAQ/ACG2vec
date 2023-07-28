@@ -328,15 +328,62 @@ docker-compose up -d
 
 
 #### 返回数据
+| 字段名 | 说明 |
+| ------ | ---- |
+| message | 操作结果消息 |
+| data.bookmarkPredict | 书签分数预测结果 |
+| data.viewPredict | 浏览分数预测结果 |
+| data.sanityPredict | 一致性分数预测结果 |
+示例：
+```json
+{
+    "message": "图片分数生成成功",
+    "data": {
+        "bookmarkPredict": [
+            8.581449E-26,
+            2.995265E-18,
+            3.6613092E-15,
+            1.1981834E-12,
+            3.4269011E-12,
+            3.6831982E-11,
+            1.5638075E-9,
+            1.3636605E-8,
+            2.9405206E-7,
+            1.0270945E-6,
+            1.303988E-6,
+            6.437657E-5,
+            0.0014591354,
+            0.9197647,
+            0.078709126
+        ],
+        "viewPredict": [
+            0.0,
+            3.0149987E-35,
+            1.2529756E-27,
+            1.4650414E-24,
+            8.6454026E-21,
+            6.129024E-17,
+            1.5657699E-16,
+            5.4758474E-14,
+            7.386554E-11,
+            6.4918726E-7,
+            2.1144382E-8,
+            5.864823E-9,
+            4.139607E-5,
+            0.79864436,
+            0.20131361
+        ],
+        "sanityPredict": [
+            8.9092083E-7,
+            0.92732614,
+            0.006454786,
+            0.0011320072,
+            0.06508616
+        ]
+    }
+}
+```
 
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>object</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1-0><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> bookmarkPredict</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-33><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1-1><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> viewPredict</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-34><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1-2><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> sanityPredict</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-35><td key=0><span style="padding-left: 40px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
 	      
 ### acgvoc2vec文本特征抽取
 
@@ -365,14 +412,47 @@ docker-compose up -d
 
 #### 返回数据
 
-<table>
-  <thead class="ant-table-thead">
-    <tr>
-      <th key=name>名称</th><th key=type>类型</th><th key=required>是否必须</th><th key=default>默认值</th><th key=desc>备注</th><th key=sub>其他信息</th>
-    </tr>
-  </thead><tbody className="ant-table-tbody"><tr key=0-0><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> message</span></td><td key=1><span>string</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr><tr key=0-1><td key=0><span style="padding-left: 0px"><span style="color: #8c8a8a"></span> data</span></td><td key=1><span>number []</span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5><p key=3><span style="font-weight: '700'">item 类型: </span><span>number</span></p></td></tr><tr key=array-36><td key=0><span style="padding-left: 20px"><span style="color: #8c8a8a">├─</span> </span></td><td key=1><span></span></td><td key=2>非必须</td><td key=3></td><td key=4><span style="white-space: pre-wrap"></span></td><td key=5></td></tr>
-               </tbody>
-              </table>
+| 字段名 | 说明 |
+| ------ | ---- |
+| message | 操作结果消息 |
+| data | 搜索结果列表，包含多个搜索结果。每个搜索结果是一个字符串。 |
+示例：
+```json
+{
+    "message": "搜索结果获取成功",
+    "data": [
+        "ピカチュウ",
+        "酷拉皮卡",
+        "ピカブイ",
+        "皮卡虫",
+        "cocoon",
+        "コロコロカービィ",
+        "皮卡丘",
+        "コロイカ",
+        "Peppercat",
+        "电击皮卡丘",
+        "ピカーラ",
+        "ケルピー",
+        "ポカブ",
+        "Dokkaebi",
+        "pony car",
+        "ポプカ",
+        "Caribou",
+        "コロポックル",
+        "電撃ピカチュウ",
+        "ピカイア！",
+        "ボトルキャップ",
+        "Magolor/Kirby",
+        "ピッコロ",
+        "Carro Pino",
+        "クラピカ",
+        "カルイル",
+        "カルピス",
+        "Kirby",
+        "ジバコイル"
+    ]
+}
+```
 	      
 ### dclip_text文本特征抽取
 
