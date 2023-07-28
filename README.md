@@ -334,6 +334,7 @@ docker-compose up -d
 | data.bookmarkPredict | 书签分数预测结果 |
 | data.viewPredict | 浏览分数预测结果 |
 | data.sanityPredict | 一致性分数预测结果 |
+
 示例：
 ```json
 {
@@ -416,6 +417,7 @@ docker-compose up -d
 | ------ | ---- |
 | message | 操作结果消息 |
 | data | 搜索结果列表，包含多个搜索结果。每个搜索结果是一个字符串。 |
+
 示例：
 ```json
 {
