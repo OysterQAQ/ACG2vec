@@ -32,6 +32,8 @@
   
   * **illust2vec**：从[DeepDanbooru](https://github.com/KichangKim/DeepDanbooru)模型去除预测头并对末尾层做均值池化的图片语义特征抽取模型
   
+  * 当前最优秀的动漫领域超分模型之一[Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN)的tensorflow实现，依赖[tfjs](https://github.com/tensorflow/tfjs)框架完成自适应后端的能运行在浏览器上的动漫超分工具。
+  
 * webapp：对外提供web服务模块。目前包括开箱即用的二次元插画标签预测服务、以图搜图服务、插画特征抽取服务、文本特征抽取服务
 
 * docker：基于容器化的部署模块，包括了部署所需要的配置文件与资源文件（未开发完成）
@@ -53,6 +55,10 @@
 ### 以图搜图
 
 ![4](https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/image-20230725185702808.png)
+
+### 图片超分辨率
+
+![image-20230916210759548](https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/image-20230916210759548.png)
 
 ## Architecture
 
@@ -275,6 +281,23 @@ github 主仓库地址（ tensorflow 的 savemodel 格式可以在 release 中�
 - **多任务梯度带偏** 多任务存在简单任务与复杂任务，学习到后期，网络中的权重更新的梯度被困难任务loss和简单任务loss的加和共同所影响，为了维持简单任务的loss会导致复杂任务loss下降缓慢，后期通过手动调整loss权重得到改善，也实现了pcgrad但是没有什么改善
 - **模型训练正常推理输出nan** 排查出bn层moving_mean与moving_variance权重异常（这也是为什么训练正常推理异常的原因），重新使用对应层初始化器初始化异常权重后，继续训练（之前训练拟合进度慢的问题也和这个有关），出现nan权重大概是因为混合精度造成的，详见https://oysterqaq.com/archives/1463
 - **部署的预处理一致性** 在模型本体集成base64图片预处理层，无需顾虑预处理行为（resize）不同导致的推理结果差异
+
+### cugan_tf
+
+当前最优秀的动漫领域超分模型之一[Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN)的tensorflow实现，依赖[tfjs](https://github.com/tensorflow/tfjs)框架完成自适应后端的能运行在浏览器上的动漫超分工具。
+
+原版实现分为切块后超分与整图超分，两种都以实现，但切块超分版本转为tfjs模型后在网页运行不正常，已向[tfjs](https://github.com/tensorflow/tfjs)仓库提交[issue](https://github.com/tensorflow/tfjs/issues/7960)。目前预览版本是整图超分版本，由于内存限制，限制了原始图片大小（512x512以内），后续issue解决将发布切块超分，大概率将不会有限制。
+
+#### pytorch模型迁移到tensorflow应该注意的点
+
+- **图片处理默认维度顺序：** tensorflow为nhwc，pytorch为nchw，卷积权重维度顺序也不相同
+
+- **tensorflow转置卷积无法自定义padding：** Conv2DTranspose层padding设为0，后续使用slice手动crop输出
+- **tf.pad无法接受负数：**使用 tf.slice作为替代
+- **多尺寸输入导致无法batch ：**无解
+- **延迟设置输入尺寸运行时获取size：**这是tensorflow图模型的限制
+- **python操作逻辑最好翻译为tensorflow 分支选择api**
+- **TensorArray：**TensorArray是图模式中python list替代品， TensorArray在eager模式TensorArray.write(i, x)可以直接生效，而在graph模式时需要将引用赋值给自身
 
 ## Technical overview
 

@@ -23,6 +23,7 @@ The current modules include:
    - dclip: Fine-tuned clip (ViT-L/14) model using the danburoo2021 dataset. You can experience it online at Huggingface: https://huggingface.co/OysterQAQ/DanbooruCLIP
    - pix2score: A multi-task model based on resnet101 used for predicting the collection count, view count, and lewdness level of anime illustrations (currently in training).
    - illust2vec: A model that extracts image semantic features by removing the prediction head from the DeepDanbooru model and performing mean pooling on the last layer.
+   - One of the current leading super-resolution models in the field of anime, [Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN), has been implemented in TensorFlow. This implementation relies on the[tfjs](https://github.com/tensorflow/tfjs) framework to achieve adaptive backend support, allowing it to run as an anime super-resolution tool in web browsers.
 2. webapp: Module providing web services to the outside world. Currently includes out-of-the-box services for predicting anime illustration tags, image search, illustration feature extraction, and text feature extraction.
 3. docker: Containerized deployment module, including configuration files and resource files required for deployment (work in progress).
 
@@ -43,6 +44,10 @@ The current modules include:
 ### image search
 
 ![4](https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/image-20230725185702808.png)
+
+### Image super resolution
+
+![image-20230916210759548](https://raw.githubusercontent.com/OysterQAQ/Blog-Image/master/image-20230916210759548.png)
 
 ## Architecture
 
@@ -262,6 +267,22 @@ Based on [resnet101](https://chat.openai.com/), the model is used for classifyin
 - **Gradient Descent Bias in Multi-task Learning**: Handling the bias in gradient descent for multi-task learning, where simple tasks and complex tasks affected the weight updates in the network's later stages. Manual adjustment of loss weights was done to improve the situation, and the PCGrad method was explored, but it did not provide significant improvement.
 - **NaN Weights during Model Training and Inference**: Troubleshooting NaN weights during model training and inference, which was caused by abnormal weights in the batch normalization layers (this also affected model training progress). The issue was addressed by reinitializing the abnormal weights using the corresponding layer initializer and continuing the training. The NaN weights were likely caused by mixed precision training, as detailed in the link provided (https://oysterqaq.com/archives/1463).
 - **Consistency in Deployment Preprocessing**: Ensuring consistency in deployment preprocessing by integrating the base64 image preprocessing layer into the model, eliminating concerns about varying preprocessing behaviors (e.g., resizing) leading to different inference results.
+
+### cugan_tf
+
+This is the TensorFlow implementation of one of the most outstanding models in the field of anime super-resolution, [Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN). It relies on the [tfjs](https://github.com/tensorflow/tfjs) framework to provide an adaptive backend that can run anime super-resolution in web browsers.
+
+The original implementation includes both chunk-based super-resolution and full-image super-resolution. Both have been implemented, but the chunk-based super-resolution version, when converted to a tfjs model, does not run correctly on web pages. An [issue](https://github.com/tensorflow/tfjs/issues/7960) has been raised in the [tfjs](https://github.com/tensorflow/tfjs) repository regarding this problem. The current preview version is the full-image super-resolution, which has limitations on the original image size (up to 512x512) due to memory constraints. The chunk-based super-resolution will be released after the issue is resolved and is expected to have no such limitations.
+
+#### Points to Note When Migrating PyTorch Models to TensorFlow
+
+- **Default Dimension Order for Images:** TensorFlow uses NHWC (batch size, height, width, channels) while PyTorch uses NCHW (batch size, channels, height, width). The convolution weight dimensions also differ.
+- **Custom Padding for Transposed Convolution in TensorFlow:** In TensorFlow, set the padding of Conv2DTranspose layers to 0 and manually crop the output using slice.
+- **tf.pad Doesn't Accept Negative Values:** Use tf.slice as an alternative.
+- **Batching with Multiple Input Sizes:** This might not have a solution.
+- **Delay Setting Input Size and Getting Size at Runtime:** This is a limitation of TensorFlow's graph mode.
+- **Translate Python Logical Operations to TensorFlow Conditional Branching APIs.**
+- **TensorArray:** TensorArray is a substitute for Python lists in graph mode. TensorArray.write(i, x) works directly in eager mode, but in graph mode, you need to assign the reference to itself.
 
 ## Technical overview
 
