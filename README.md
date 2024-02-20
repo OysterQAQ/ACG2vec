@@ -32,7 +32,9 @@
   
   * **illust2vec**：从[DeepDanbooru](https://github.com/KichangKim/DeepDanbooru)模型去除预测头并对末尾层做均值池化的图片语义特征抽取模型
   
-  * 当前最优秀的动漫领域超分模型之一[Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN)的tensorflow实现，依赖[tfjs](https://github.com/tensorflow/tfjs)框架完成自适应后端的能运行在浏览器上的动漫超分工具。
+  * **real-cugan_tf**：当前最优秀的动漫领域超分模型之一[Real-CUGAN](https://github.com/bilibili/ailab/tree/main/Real-CUGAN)的tensorflow实现，依赖[tfjs](https://github.com/tensorflow/tfjs)框架完成自适应后端的能运行在浏览器上的动漫超分工具。
+  
+  * **recSys4Pix**：构建最小化现代推荐系统实践
   
 * webapp：对外提供web服务模块。目前包括开箱即用的二次元插画标签预测服务、以图搜图服务、插画特征抽取服务、文本特征抽取服务
 
